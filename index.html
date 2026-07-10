@@ -134,6 +134,18 @@
       font-weight: 600;
     }
 
+    .sidebar-nav a .service-count {
+      margin-left: auto;
+      background: rgba(96, 165, 250, 0.15);
+      color: #60a5fa;
+      font-size: 11px;
+      padding: 1px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      min-width: 20px;
+      text-align: center;
+    }
+
     .sidebar-footer {
       padding: 16px 20px 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -1129,21 +1141,57 @@
       <nav class="sidebar-nav">
         <div class="nav-label">Navigation</div>
         <a class="active" data-view="pdca" onclick="switchView('pdca')">
-          <i class="fas fa-clipboard-list"></i> NEVELLE PDCA
+          <i class="fas fa-clipboard-list"></i> PDCA
           <span class="badge">Form</span>
         </a>
-        <a data-view="UAP1" onclick="switchView('UAP1')"><i class="fas fa-microchip"></i> UAP1</a>
-        <a data-view="UAP2" onclick="switchView('UAP2')"><i class="fas fa-microchip"></i> UAP2</a>
-        <a data-view="MAINTENANCE" onclick="switchView('MAINTENANCE')"><i class="fas fa-wrench"></i> MAINTENANCE</a>
-        <a data-view="MECANIQUE" onclick="switchView('MECANIQUE')"><i class="fas fa-cogs"></i> MECANIQUE</a>
-        <a data-view="LOGESTIQUE" onclick="switchView('LOGESTIQUE')"><i class="fas fa-truck"></i> LOGESTIQUE</a>
-        <a data-view="ACHAT" onclick="switchView('ACHAT')"><i class="fas fa-shopping-cart"></i> ACHAT</a>
-        <a data-view="FINANCE" onclick="switchView('FINANCE')"><i class="fas fa-chart-line"></i> FINANCE</a>
-        <a data-view="RH" onclick="switchView('RH')"><i class="fas fa-users"></i> RH</a>
-        <a data-view="QUALITER" onclick="switchView('QUALITER')"><i class="fas fa-check-double"></i> QUALITER</a>
-        <a data-view="IT" onclick="switchView('IT')"><i class="fas fa-laptop-code"></i> IT</a>
-        <a data-view="INDUS" onclick="switchView('INDUS')"><i class="fas fa-industry"></i> INDUS</a>
-        <a data-view="METHODE" onclick="switchView('METHODE')"><i class="fas fa-project-diagram"></i> METHODE</a>
+        <a data-view="UAP1" onclick="switchView('UAP1')">
+          <i class="fas fa-microchip"></i> UAP1
+          <span class="service-count" id="count-UAP1">0</span>
+        </a>
+        <a data-view="UAP2" onclick="switchView('UAP2')">
+          <i class="fas fa-microchip"></i> UAP2
+          <span class="service-count" id="count-UAP2">0</span>
+        </a>
+        <a data-view="MAINTENANCE" onclick="switchView('MAINTENANCE')">
+          <i class="fas fa-wrench"></i> MAINTENANCE
+          <span class="service-count" id="count-MAINTENANCE">0</span>
+        </a>
+        <a data-view="MECANIQUE" onclick="switchView('MECANIQUE')">
+          <i class="fas fa-cogs"></i> MECANIQUE
+          <span class="service-count" id="count-MECANIQUE">0</span>
+        </a>
+        <a data-view="LOGESTIQUE" onclick="switchView('LOGESTIQUE')">
+          <i class="fas fa-truck"></i> LOGESTIQUE
+          <span class="service-count" id="count-LOGESTIQUE">0</span>
+        </a>
+        <a data-view="ACHAT" onclick="switchView('ACHAT')">
+          <i class="fas fa-shopping-cart"></i> ACHAT
+          <span class="service-count" id="count-ACHAT">0</span>
+        </a>
+        <a data-view="FINANCE" onclick="switchView('FINANCE')">
+          <i class="fas fa-chart-line"></i> FINANCE
+          <span class="service-count" id="count-FINANCE">0</span>
+        </a>
+        <a data-view="RH" onclick="switchView('RH')">
+          <i class="fas fa-users"></i> RH
+          <span class="service-count" id="count-RH">0</span>
+        </a>
+        <a data-view="QUALITER" onclick="switchView('QUALITER')">
+          <i class="fas fa-check-double"></i> QUALITER
+          <span class="service-count" id="count-QUALITER">0</span>
+        </a>
+        <a data-view="IT" onclick="switchView('IT')">
+          <i class="fas fa-laptop-code"></i> IT
+          <span class="service-count" id="count-IT">0</span>
+        </a>
+        <a data-view="INDUS" onclick="switchView('INDUS')">
+          <i class="fas fa-industry"></i> INDUS
+          <span class="service-count" id="count-INDUS">0</span>
+        </a>
+        <a data-view="METHODE" onclick="switchView('METHODE')">
+          <i class="fas fa-project-diagram"></i> METHODE
+          <span class="service-count" id="count-METHODE">0</span>
+        </a>
       </nav>
       <div class="sidebar-footer">© 2026 WKW Automotive</div>
     </aside>
@@ -1209,7 +1257,7 @@
               </div>
             </div>
 
-            <div class="form-title"><i class="fas fa-pen-alt"></i> NEVELLE PDCA</div>
+            <div class="form-title"><i class="fas fa-pen-alt"></i> PDCA</div>
             <div class="form-subtitle">
               Remplissez le formulaire ci-dessous. Vous pouvez ajouter plusieurs actions.
             </div>
@@ -1420,8 +1468,8 @@
     // ─── GLOBAL VARIABLES ───
     let actionCounter = 1;
     let currentService = null;
-    let unsubscribeService = null; // pour se désabonner de l'écoute Firebase
-    let unsubscribeAll = null; // pour les statistiques globales
+    let unsubscribeService = null;
+    let unsubscribeAll = null;
 
     // ─── SIDEBAR TOGGLE ───
     const hamburger = document.getElementById('hamburgerBtn');
@@ -1462,12 +1510,10 @@
 
       if (view === 'pdca') {
         document.getElementById('view-pdca').classList.add('active');
-        // Se désabonner de l'écoute service
         if (unsubscribeService) {
           unsubscribeService();
           unsubscribeService = null;
         }
-        // Les stats globales sont gérées en permanence
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
         return;
@@ -1479,7 +1525,6 @@
       if (services.includes(view)) {
         currentService = view;
         document.getElementById('view-service').classList.add('active');
-        // Charger les données depuis Firebase en temps réel
         loadServiceData(view);
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
@@ -1491,7 +1536,7 @@
       overlay.classList.remove('active');
     }
 
-    // ─── GLOBAL STATS (all services) ───
+    // ─── GLOBAL STATS ───
     function initGlobalStats() {
       const db = window.db;
       const ref = window.ref;
@@ -1507,11 +1552,15 @@
       unsubscribeAll = onValue(actionsRef, (snapshot) => {
         const data = snapshot.val();
         if (!data) {
-          // Aucune action
           document.getElementById('totalActionsCount').textContent = '0';
           document.getElementById('completedActionsCount').textContent = '0';
           document.getElementById('inProgressCount').textContent = '0';
           document.getElementById('activeServicesCount').textContent = '0';
+          const services = ['UAP1', 'UAP2', 'MAINTENANCE', 'MECANIQUE', 'LOGESTIQUE', 'ACHAT', 'FINANCE', 'RH', 'QUALITER', 'IT', 'INDUS', 'METHODE'];
+          services.forEach(s => {
+            const el = document.getElementById(`count-${s}`);
+            if (el) el.textContent = '0';
+          });
           return;
         }
 
@@ -1522,6 +1571,19 @@
 
         const services = Object.keys(data);
         activeServices = services.length;
+
+        const allServices = ['UAP1', 'UAP2', 'MAINTENANCE', 'MECANIQUE', 'LOGESTIQUE', 'ACHAT', 'FINANCE', 'RH', 'QUALITER', 'IT', 'INDUS', 'METHODE'];
+        allServices.forEach(s => {
+          const el = document.getElementById(`count-${s}`);
+          if (el) {
+            if (data[s]) {
+              const count = Object.keys(data[s]).length;
+              el.textContent = count;
+            } else {
+              el.textContent = '0';
+            }
+          }
+        });
 
         services.forEach(service => {
           const actions = data[service];
@@ -1552,7 +1614,6 @@
       const container = document.getElementById('serviceActionsContainer');
       container.innerHTML = `<div class="loading-spinner"></div> Chargement...`;
 
-      // Se désabonner de l'ancienne écoute
       if (unsubscribeService) {
         unsubscribeService();
         unsubscribeService = null;
@@ -1577,13 +1638,11 @@
           return;
         }
 
-        // Transformer l'objet en tableau avec les IDs
         const actionsArray = Object.keys(data).map(key => ({
           id: key,
           ...data[key]
         }));
 
-        // Trier par date de soumission (du plus récent au plus ancien)
         actionsArray.sort((a, b) => (b.submittedAt || '').localeCompare(a.submittedAt || ''));
 
         renderServiceView(service, actionsArray);
@@ -1649,7 +1708,6 @@
               <span><i class="fas fa-calendar-check"></i> ${dateFin}</span>
             </div>
 
-            <!-- Zone d'édition -->
             <div class="edit-area">
               <div class="edit-group">
                 <label><i class="fas fa-chart-simple"></i> Progression</label>
@@ -1728,7 +1786,6 @@
       const db = window.db;
       const ref = window.ref;
       const get = window.get;
-      const child = window.child;
 
       const serviceRef = ref(db, `actions/${currentService}`);
       get(serviceRef).then((snapshot) => {
@@ -1894,7 +1951,6 @@
     }
 
     function resetFormToEmpty() {
-      // Garder une seule action, tout vider
       const container = document.getElementById('actionsContainer');
       const cards = container.querySelectorAll('.action-card');
       for (let i = 1; i < cards.length; i++) {
@@ -1922,7 +1978,6 @@
         if (inp) { inp.value = '';
           inp.required = false; }
       });
-      // Remettre les dates par défaut
       const today = new Date().toISOString().split('T')[0];
       const dateOpen = first.querySelector('#dateOuverture_0');
       const dateFin = first.querySelector('#dateFin_0');
@@ -1932,7 +1987,6 @@
         future.setDate(future.getDate() + 14);
         dateFin.value = future.toISOString().split('T')[0];
       }
-      // Réinitialiser le select service
       document.getElementById('serviceSelect').selectedIndex = 0;
     }
 
@@ -2006,7 +2060,6 @@
         return false;
       }
 
-      // Soumettre à Firebase
       const db = window.db;
       const ref = window.ref;
       const push = window.push;
@@ -2022,10 +2075,8 @@
 
         showToast(`Soumission envoyée au service ${service} ! (${actions.length} action(s))`, 'success');
 
-        // Vider le formulaire
         resetFormToEmpty();
 
-        // Rediriger vers le service pour voir les données
         currentService = service;
         switchView(service);
 
@@ -2077,7 +2128,6 @@
 
     // ─── INIT ───
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialiser les dates par défaut
       const today = new Date().toISOString().split('T')[0];
       const firstDateOpen = document.getElementById('dateOuverture_0');
       const firstDateFin = document.getElementById('dateFin_0');
@@ -2088,8 +2138,7 @@
         firstDateFin.value = future.toISOString().split('T')[0];
       }
       updateProgress(0);
-      
-      // Démarrer les stats globales
+
       initGlobalStats();
 
       switchView('pdca');
