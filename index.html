@@ -827,6 +827,57 @@
       font-size: 12px;
     }
 
+    /* Tags */
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-right: 4px;
+    }
+    .tag-defaut {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .tag-qualite {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .tag-securite {
+      background: #fce4ec;
+      color: #b71c1c;
+    }
+    .tag-process {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    .tag-materiel {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .tag-orga {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+    .tag-priorite-elevee {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #dc2626;
+    }
+    .tag-priorite-moyenne {
+      background: #fef3c7;
+      color: #d97706;
+      border: 1px solid #d97706;
+    }
+    .tag-priorite-faible {
+      background: #d1fae5;
+      color: #059669;
+      border: 1px solid #059669;
+    }
+
     .action-entry .edit-area {
       display: flex;
       flex-wrap: wrap;
@@ -949,6 +1000,135 @@
       text-align: right;
     }
 
+    /* ─── CALENDAR VIEW ─── */
+    .calendar-container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 28px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      margin-top: 32px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0b1a33;
+    }
+
+    .calendar-header .btn-nav {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #64748b;
+      cursor: pointer;
+      padding: 4px 12px;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+
+    .calendar-header .btn-nav:hover {
+      background: #f1f5f9;
+      color: #0b1a33;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .calendar-grid .day-name {
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+      color: #94a3b8;
+      padding: 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .calendar-grid .day-cell {
+      min-height: 80px;
+      background: #fafbfc;
+      border-radius: 8px;
+      padding: 6px;
+      border: 1px solid #e9edf2;
+      transition: background 0.15s;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .calendar-grid .day-cell:hover {
+      background: #f1f5f9;
+    }
+
+    .calendar-grid .day-cell .day-number {
+      font-weight: 600;
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    /* Événements du calendrier avec couleurs basées sur la progression */
+    .calendar-grid .day-cell .day-event {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      border-left: 3px solid #3b82f6;
+      background: #eef2ff;
+      color: #1e293b;
+      transition: opacity 0.2s;
+    }
+
+    /* Progression 100% → vert */
+    .calendar-grid .day-cell .day-event.completed {
+      background: #d1fae5;
+      color: #065f46;
+      border-left-color: #059669;
+      text-decoration: line-through;
+      opacity: 0.8;
+    }
+
+    /* Progression 0% → rouge */
+    .calendar-grid .day-cell .day-event.progress-zero {
+      background: #fee2e2;
+      color: #991b1b;
+      border-left-color: #dc2626;
+    }
+
+    /* Progression 1-99% → orange */
+    .calendar-grid .day-cell .day-event.progress-middle {
+      background: #fef3c7;
+      color: #92400e;
+      border-left-color: #d97706;
+    }
+
+    .calendar-grid .day-cell.other-month .day-number {
+      color: #cbd5e1;
+    }
+
+    .calendar-grid .day-cell.today {
+      background: #eef2ff;
+      border-color: #3b82f6;
+    }
+
+    .calendar-grid .day-cell.today .day-number {
+      color: #1d4ed8;
+    }
+
     .toast {
       position: fixed;
       bottom: 30px;
@@ -1055,6 +1235,14 @@
       .stats-grid {
         grid-template-columns: 1fr 1fr;
       }
+      .calendar-grid .day-cell {
+        min-height: 60px;
+        font-size: 12px;
+      }
+      .calendar-grid .day-cell .day-event {
+        font-size: 10px;
+        white-space: normal;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1071,6 +1259,15 @@
       }
       .stats-grid {
         grid-template-columns: 1fr;
+      }
+      .calendar-grid .day-cell {
+        min-height: 50px;
+        font-size: 11px;
+        padding: 4px;
+      }
+      .calendar-grid .day-cell .day-event {
+        font-size: 9px;
+        padding: 1px 4px;
       }
     }
 
@@ -1141,7 +1338,7 @@
       <nav class="sidebar-nav">
         <div class="nav-label">Navigation</div>
         <a class="active" data-view="pdca" onclick="switchView('pdca')">
-          <i class="fas fa-clipboard-list"></i> PDCA
+          <i class="fas fa-clipboard-list"></i>  PDCA
           <span class="badge">Form</span>
         </a>
         <a data-view="UAP1" onclick="switchView('UAP1')">
@@ -1257,7 +1454,7 @@
               </div>
             </div>
 
-            <div class="form-title"><i class="fas fa-pen-alt"></i> PDCA</div>
+            <div class="form-title"><i class="fas fa-pen-alt"></i>  PDCA</div>
             <div class="form-subtitle">
               Remplissez le formulaire ci-dessous. Vous pouvez ajouter plusieurs actions.
             </div>
@@ -1355,6 +1552,29 @@
                       <input type="date" id="dateFin_0" required />
                     </div>
                   </div>
+                  <!-- Nouveaux champs : Type de défaut et Priorité -->
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="typeDefaut_0"><i class="fas fa-tag"></i> Type de défaut</label>
+                      <select id="typeDefaut_0" class="type-defaut">
+                        <option value="">— Aucun —</option>
+                        <option value="defaut">Défaut</option>
+                        <option value="qualite">Qualité</option>
+                        <option value="securite">Sécurité</option>
+                        <option value="process">Process</option>
+                        <option value="materiel">Matériel</option>
+                        <option value="orga">Organisation</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="priorite_0"><i class="fas fa-flag"></i> Priorité</label>
+                      <select id="priorite_0" class="priorite">
+                        <option value="faible">Faible</option>
+                        <option value="moyenne" selected>Moyenne</option>
+                        <option value="elevee">Élevée</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="form-row single">
                     <div class="form-group progress-group">
                       <div class="progress-header">
@@ -1385,6 +1605,19 @@
                 </span>
               </div>
             </form>
+
+            <!-- ─── CALENDRIER INTÉGRÉ ─── -->
+            <div class="calendar-container" id="calendarContainer">
+              <div class="calendar-header">
+                <button class="btn-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                <h3 id="calendarMonthYear">Janvier 2025</h3>
+                <button class="btn-nav" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <div class="calendar-grid" id="calendarGrid">
+                <!-- Généré par JS -->
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -1470,6 +1703,9 @@
     let currentService = null;
     let unsubscribeService = null;
     let unsubscribeAll = null;
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let allActionsForCalendar = []; // stocke toutes les actions pour le calendrier
 
     // ─── SIDEBAR TOGGLE ───
     const hamburger = document.getElementById('hamburgerBtn');
@@ -1514,6 +1750,8 @@
           unsubscribeService();
           unsubscribeService = null;
         }
+        // Rafraîchir le calendrier avec toutes les actions
+        renderCalendar(allActionsForCalendar);
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
         return;
@@ -1536,7 +1774,7 @@
       overlay.classList.remove('active');
     }
 
-    // ─── GLOBAL STATS ───
+    // ─── GLOBAL STATS & CALENDAR ───
     function initGlobalStats() {
       const db = window.db;
       const ref = window.ref;
@@ -1561,6 +1799,8 @@
             const el = document.getElementById(`count-${s}`);
             if (el) el.textContent = '0';
           });
+          allActionsForCalendar = [];
+          renderCalendar([]);
           return;
         }
 
@@ -1568,6 +1808,7 @@
         let completed = 0;
         let inProgress = 0;
         let activeServices = 0;
+        const allActions = [];
 
         const services = Object.keys(data);
         activeServices = services.length;
@@ -1596,6 +1837,12 @@
             } else {
               inProgress++;
             }
+            // Ajouter à la liste pour le calendrier
+            allActions.push({
+              ...action,
+              id: key,
+              service: service
+            });
           });
         });
 
@@ -1604,9 +1851,99 @@
         document.getElementById('inProgressCount').textContent = inProgress;
         document.getElementById('activeServicesCount').textContent = activeServices;
 
+        // Mettre à jour le calendrier avec toutes les actions
+        allActionsForCalendar = allActions;
+        renderCalendar(allActions);
+
       }, (error) => {
         console.error('Erreur stats Firebase:', error);
       });
+    }
+
+    // ─── CALENDAR ───
+    function renderCalendar(actions) {
+      const grid = document.getElementById('calendarGrid');
+      const monthYear = document.getElementById('calendarMonthYear');
+      const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=Dim
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+      let html = '';
+      // Jours de la semaine (Lun->Dim)
+      const dayNames = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+      dayNames.forEach(name => {
+        html += `<div class="day-name">${name}</div>`;
+      });
+
+      // Ajuster firstDay pour que le premier jour soit Lundi (0=Lun)
+      let startOffset = (firstDay === 0) ? 6 : firstDay - 1;
+
+      // Jours du mois précédent
+      for (let i = startOffset - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        html += `<div class="day-cell other-month"><div class="day-number">${day}</div></div>`;
+      }
+
+      // Jours du mois courant
+      const today = new Date();
+      const todayDate = today.getDate();
+      const todayMonth = today.getMonth();
+      const todayYear = today.getFullYear();
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateObj = new Date(currentYear, currentMonth, d);
+        const dateStr = dateObj.toISOString().split('T')[0];
+        const isToday = (d === todayDate && currentMonth === todayMonth && currentYear === todayYear);
+        let classNames = 'day-cell';
+        if (isToday) classNames += ' today';
+
+        // Récupérer les actions pour cette date (date de fin)
+        const dayActions = actions.filter(a => a.dateFin === dateStr);
+
+        html += `<div class="${classNames}">`;
+        html += `<div class="day-number">${d}</div>`;
+        dayActions.forEach(a => {
+          const progress = a.progression || 0;
+          let cls = 'day-event';
+          let tooltip = `${a.sujet} (${a.service}) - ${progress}%`;
+
+          // Déterminer la classe en fonction de la progression
+          if (progress === 100) {
+            cls += ' completed';
+          } else if (progress === 0) {
+            cls += ' progress-zero';
+          } else {
+            cls += ' progress-middle';
+          }
+
+          html += `<div class="${cls}" title="${tooltip}">${a.sujet}</div>`;
+        });
+        html += `</div>`;
+      }
+
+      // Compléter avec les jours du mois suivant
+      const totalCells = startOffset + daysInMonth;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let i = 1; i <= remaining; i++) {
+        html += `<div class="day-cell other-month"><div class="day-number">${i}</div></div>`;
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function changeMonth(delta) {
+      currentMonth += delta;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar(allActionsForCalendar);
     }
 
     // ─── LOAD DATA FROM FIREBASE ───
@@ -1632,7 +1969,7 @@
             <div class="empty-state">
               <i class="fas fa-inbox"></i>
               <h3>Aucune action pour ce service</h3>
-              <p>Utilisez le formulaire NEVELLE PDCA pour en ajouter.</p>
+              <p>Utilisez le formulaire  PDCA pour en ajouter.</p>
             </div>
           `;
           return;
@@ -1670,7 +2007,7 @@
           <div class="empty-state">
             <i class="fas fa-inbox"></i>
             <h3>Aucune action pour ce service</h3>
-            <p>Utilisez le formulaire NEVELLE PDCA pour en ajouter.</p>
+            <p>Utilisez le formulaire  PDCA pour en ajouter.</p>
           </div>
         `;
         return;
@@ -1691,9 +2028,17 @@
         const progress = a.progression || 0;
         const dateFin = a.dateFin || '';
         const modified = a.lastModified || a.submittedAt || '';
+        const typeDefaut = a.typeDefaut || '';
+        const priorite = a.priorite || 'moyenne';
+
+        // Couleur de bordure selon priorité
+        let borderColor = '#3b82f6'; // default blue
+        if (priorite === 'elevee') borderColor = '#dc2626';
+        else if (priorite === 'moyenne') borderColor = '#d97706';
+        else if (priorite === 'faible') borderColor = '#059669';
 
         html += `
-          <div class="action-entry" data-id="${a.id}" data-index="${idx}">
+          <div class="action-entry" data-id="${a.id}" data-index="${idx}" style="border-left-color: ${borderColor};">
             <div class="action-entry-header">
               <span>Action n°${idx + 1} — <strong>${a.ligne || 'N/A'}</strong></span>
               <span style="font-size:13px; color:#64748b;">
@@ -1706,6 +2051,8 @@
               <span><i class="fas fa-bolt"></i> ${a.action || ''}</span>
               <span><i class="fas fa-calendar-plus"></i> ${a.dateOuverture || ''}</span>
               <span><i class="fas fa-calendar-check"></i> ${dateFin}</span>
+              ${typeDefaut ? `<span><i class="fas fa-tag"></i> <span class="tag tag-${typeDefaut}">${typeDefaut}</span></span>` : ''}
+              ${priorite ? `<span><i class="fas fa-flag"></i> <span class="tag tag-priorite-${priorite}">${priorite}</span></span>` : ''}
             </div>
 
             <div class="edit-area">
@@ -1809,13 +2156,15 @@
           'N°': idx + 1,
           'Service': currentService,
           'Ligne/Poste': a.ligne || '',
-          'Sujet / Non-conformité': a.sujet || '',
+          'Sujet': a.sujet || '',
           'Description': a.description || '',
           'Action': a.action || '',
           'Pilote': a.pilote || '',
           'Date ouverture': a.dateOuverture || '',
           'Date de fin': a.dateFin || '',
           'Progression (%)': a.progression || 0,
+          'Type de défaut': a.typeDefaut || '',
+          'Priorité': a.priorite || '',
           'Soumis le': a.submittedAt || '',
           'Dernière modif.': a.lastModified || ''
         }));
@@ -1887,6 +2236,12 @@
             input.oninput = function() { updateProgress(index); };
             input.value = 0;
           }
+          if (input.classList.contains('type-defaut')) {
+            input.id = `typeDefaut_${index}`;
+          }
+          if (input.classList.contains('priorite')) {
+            input.id = `priorite_${index}`;
+          }
         }
         if (input.tagName !== 'SELECT') {
           if (input.type !== 'range' && input.type !== 'date') {
@@ -1895,7 +2250,9 @@
             input.value = '';
           }
         } else {
-          input.selectedIndex = 0;
+          if (!input.classList.contains('type-defaut') && !input.classList.contains('priorite')) {
+            input.selectedIndex = 0;
+          }
         }
       });
 
@@ -1967,7 +2324,12 @@
         } else if (input.type === 'date') {
           input.value = '';
         } else if (input.tagName === 'SELECT') {
-          input.selectedIndex = 0;
+          if (!input.classList.contains('type-defaut') && !input.classList.contains('priorite')) {
+            input.selectedIndex = 0;
+          } else {
+            if (input.classList.contains('type-defaut')) input.selectedIndex = 0;
+            if (input.classList.contains('priorite')) input.selectedIndex = 1;
+          }
         } else {
           input.value = '';
         }
@@ -2022,6 +2384,8 @@
         const dateOuverture = card.querySelector(`#dateOuverture_${idx}`)?.value || '';
         const dateFin = card.querySelector(`#dateFin_${idx}`)?.value || '';
         const progress = parseInt(card.querySelector(`#progressSlider_${idx}`)?.value || 0);
+        const typeDefaut = card.querySelector(`#typeDefaut_${idx}`)?.value || '';
+        const priorite = card.querySelector(`#priorite_${idx}`)?.value || 'moyenne';
 
         if (!ligne || !sujet || !description || !actionText || !pilote || !dateOuverture || !dateFin) {
           valid = false;
@@ -2050,6 +2414,8 @@
           dateOuverture,
           dateFin,
           progression: progress,
+          typeDefaut: typeDefaut,
+          priorite: priorite,
           submittedAt: new Date().toLocaleString('fr-FR'),
           lastModified: new Date().toLocaleString('fr-FR')
         });
@@ -2149,6 +2515,7 @@
         toggleSidebar();
       }
     });
+
   </script>
 
 </body>
